@@ -5,7 +5,7 @@
 . /start-utils
 
 logAutopause "Starting knockd"
-sudo /usr/sbin/knockd -c /tmp/knockd-config.cfg -d
+sudo /usr/sbin/knockd -c /tmp/knockd-config.cfg -d -v -D
 logAutopause "Started!"
 if [ $? -ne 0 ] ; then
   while :
@@ -23,10 +23,12 @@ if [ $? -ne 0 ] ; then
   exit 1
 fi
 
+logAutopause "Entering loop"
 STATE=INIT
 
 while :
 do
+  logAutopause "Next iteration, current state $STATE"
   case X$STATE in
   XINIT)
     # Server startup

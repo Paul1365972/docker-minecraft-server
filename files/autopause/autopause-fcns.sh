@@ -13,7 +13,7 @@ rcon_client_exists() {
 }
 
 mc_server_listening() {
-  [[ -n $(netstat -tln | grep "0.0.0.0:$SERVER_PORT" | grep LISTEN) ]]
+  [[ -n $(netstat -tln | grep -e "0.0.0.0:$SERVER_PORT" -e ":::$SERVER_PORT" | grep LISTEN) ]]
 }
 
 java_clients_connected() {
@@ -29,6 +29,7 @@ java_clients_connected() {
   # remember, that the host network mode does not work with autopause because of the knockd utility
   for (( i=0; i<${#connections[@]}; i++ ))
   do
+    # TODO: Also add ::1 (ipv6 loopback address) to check
     if [[ ! $(echo "${connections[$i]}" | awk '{print $5}') =~ ^\s*127\.0\.0\.1:.*$ ]] ; then
       # not localhost
       return 0

@@ -4,7 +4,9 @@
 
 . /start-utils
 
+logAutopause "Starting knockd"
 sudo /usr/sbin/knockd -c /tmp/knockd-config.cfg -d
+logAutopause "Started!"
 if [ $? -ne 0 ] ; then
   while :
   do
